@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>带标签数字动画的基础仪表盘</title>
+
+    <script type="text/javascript" src="./js/echarts.js"></script>
+    <script type="text/javascript" src="js/axios.js"></script>
+</head>
+
+<style>
+    #container {
+        width: 70vw;
+        height: 70vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<body>
+<div id="container"></div>
+<script>
+
+    //初始化echarts实例
+    var chart = echarts.init(document.getElementById('container'));
+
+    // 指定图表的配置项和数据
+    var option =
+        {
+            tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+            },
+            series: [
+                {
+                    name: '仪表盘',
+                    type: 'gauge',
+                    detail: {
+                        valueAnimation: true,
+                        formatter: '{value}'
+                    },
+                    data: [
+                        {
+                            value: 50,
+                            name: 'SCORE'
+                        }
+                    ]
+                }
+            ]
+        };
+
+    //使用刚指定的配置项和数据显示图表
+    chart.setOption(option);
+
+    setInterval(function ()
+    {
+        chart.setOption(
+            {
+                series: [
+                    {
+                        data: [
+                            {
+                                name: 'SCORE',
+                                value: (function ()
+                                {
+                                    return Math.round(Math.random() * 100)
+                                }())
+                            }
+                        ]
+                    }
+                ]
+            }
+        )
+    }, 2000)
+</script>
+
+</body>
+</html>

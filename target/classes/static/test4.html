@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>阶段速度仪表盘</title>
+
+    <script type="text/javascript" src="./js/echarts.js"></script>
+    <script type="text/javascript" src="js/axios.js"></script>
+</head>
+
+<style>
+    #container {
+        width: 70vw;
+        height: 70vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<body>
+<div id="container"></div>
+<script>
+
+    //初始化echarts实例
+    var chart = echarts.init(document.getElementById('container'));
+
+    // 指定图表的配置项和数据
+    var option =
+        {
+            series: [
+                {
+                    name: '仪表盘',
+                    type: 'gauge',
+                    axisLine: {
+                        lineStyle: {
+                            width: 30,
+                            color: [
+                                [0.3, 'green'],
+                                [0.6, '#37a2da'],
+                                [0.8, '#ffaa00'],
+                                [1, '#fd666d']
+                            ]
+                        }
+                    },
+                    pointer: {
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        distance: -30,
+                        length: 8,
+                        lineStyle: {
+                            color: '#fff',
+                            width: 2
+                        }
+                    },
+                    splitLine: {
+                        distance: -30,
+                        length: 30,
+                        lineStyle: {
+                            color: '#fff',
+                            width: 4
+                        }
+                    },
+                    axisLabel: {
+                        color: 'inherit',
+                        distance: 40,
+                        fontSize: 20
+                    },
+                    detail: {
+                        valueAnimation: true,
+                        formatter: '{value} km/h',
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: 50,
+                            name: '速度'
+                        }
+                    ]
+                }
+            ]
+        };
+
+    //使用刚指定的配置项和数据显示图表
+    chart.setOption(option);
+
+    var data = 50;
+
+    setInterval(function ()
+    {
+        chart.setOption(
+            {
+                series: [
+                    {
+                        data: [
+                            {
+                                name: '速度',
+                                value: (function ()
+                                {
+                                    if (data >= 100)
+                                    {
+                                        return 99;
+                                    }
+                                    if (data <= 0)
+                                    {
+                                        return 1;
+                                    }
+                                    return Math.random() > 0.5 ? (++data) : (--data);
+                                }())
+                            }
+                        ]
+                    }
+                ]
+            }
+        )
+    }, 500)
+</script>
+
+</body>
+</html>

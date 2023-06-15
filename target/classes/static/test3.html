@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>速度仪表盘</title>
+
+    <script type="text/javascript" src="./js/echarts.js"></script>
+    <script type="text/javascript" src="js/axios.js"></script>
+</head>
+
+<style>
+    #container {
+        width: 70vw;
+        height: 70vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<body>
+<div id="container"></div>
+<script>
+
+    //初始化echarts实例
+    var chart = echarts.init(document.getElementById('container'));
+
+    // 指定图表的配置项和数据
+    var option =
+        {
+            series: [
+                {
+                    name: '仪表盘',
+                    type: 'gauge',
+                    progress: {
+                        show: true,
+                        width: 18
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            width: 18
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitLine: {
+                        length: 15,
+                        lineStyle: {
+                            width: 2,
+                            color: '#999'
+                        }
+                    },
+                    axisLabel: {
+                        distance: 25,
+                        color: '#999',
+                        fontSize: 20
+                    },
+                    anchor: {
+                        show: true,
+                        showAbove: true,
+                        size: 25,
+                        itemStyle: {
+                            borderWidth: 10
+                        }
+                    },
+                    title: {
+                        show: false
+                    },
+                    detail: {
+                        valueAnimation: true,
+                        fontSize: 80,
+                        offsetCenter: [0, '70%']
+                    },
+                    data: [
+                        {
+                            value: 50,
+                            name: '速度'
+                        }
+                    ]
+                }
+            ]
+        };
+
+    //使用刚指定的配置项和数据显示图表
+    chart.setOption(option);
+
+    var data = 50;
+
+    setInterval(function ()
+    {
+        chart.setOption(
+            {
+                series: [
+                    {
+                        data: [
+                            {
+                                name: '速度',
+                                value: (function ()
+                                {
+                                    if (data >= 100)
+                                    {
+                                        return 99;
+                                    }
+                                    if (data <= 0)
+                                    {
+                                        return 1;
+                                    }
+                                    return Math.random() > 0.5 ? (++data) : (--data);
+                                }())
+                            }
+                        ]
+                    }
+                ]
+            }
+        )
+    }, 500)
+</script>
+
+</body>
+</html>
